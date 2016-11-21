@@ -1,0 +1,16 @@
+{
+  "name": "netlify-context-explorer",
+  "version": "1.0.0",
+  "description": "Add Netlify context information to your deploy previews.",
+  "keywords": [
+    "netlify",
+    "webpack"
+  ],
+  "files": [
+    "ContextViewer",
+    "ContextRecorder"
+  ],
+  "repository": "https://github.com/netlify/netlify-context-explorer",
+  "author": "David Calavera",
+  "license": "MIT"
+}

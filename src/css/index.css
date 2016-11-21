@@ -1,0 +1,26 @@
+.netlify-context-wrapper {
+  height: 35px;
+  color: #999;
+  background: #111;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+}
+
+.netlify-context-wrapper  a {
+  color: #F6BC00;
+  text-decoration: none;
+}
+
+.netlify-context-wrapper .bucket {
+  display: inline-block;
+  padding: 4px 6px;
+  font-family: Consolas, "Liberation Mono", Courier, monospace;
+  line-height: 1;
+  color: #CCC;
+  padding-left: 2.5em;
+  background: url(https://www.netlify.com/img/open-source/comment-api-logo.svg) bottom no-repeat;
+  background-position: 10px;
+}
