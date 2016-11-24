@@ -17,10 +17,8 @@
 .netlify-context-wrapper .bucket {
   display: inline-block;
   padding: 4px 6px;
-  font-family: Consolas, "Liberation Mono", Courier, monospace;
+  font-size: 14px;
+  font-family: Mono, Consolas, "Liberation Mono", Courier, monospace;
   line-height: 1;
   color: #CCC;
-  padding-left: 2.5em;
-  background: url(https://www.netlify.com/img/open-source/comment-api-logo.svg) bottom no-repeat;
-  background-position: 10px;
 }
