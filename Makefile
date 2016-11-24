@@ -13,5 +13,4 @@ deps: ## Download the Elm dependencies.
 	elm-package install -y
 
 publish: build ## Publish the NPM package into the public registry.
-	cd package
-	npm publish
+	cd package && npm publish
