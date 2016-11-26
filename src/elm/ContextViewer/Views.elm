@@ -12,12 +12,7 @@ renderContext : Model -> Html Msg
 renderContext model =
     case model.context of
         Err error ->
-            case error of
-                Http.BadResponse 404 msg ->
-                    div [] []
-
-                otherError ->
-                    text (parseError otherError) |> renderWrapper
+            renderError error |> renderWrapper
 
         Ok ctx ->
             let
@@ -28,6 +23,28 @@ renderContext model =
                     renderGitInfo ctx |> renderWrapper
                 else
                     div [] []
+
+
+renderError : Http.Error -> Html Msg
+renderError error =
+    case error of
+        Http.Timeout ->
+            text "timeout reading the context file"
+
+        Http.NetworkError ->
+            text "network error reading the context file"
+
+        Http.BadUrl url ->
+            text ("bad url: " ++ url)
+
+        Http.BadPayload str resp ->
+            text str
+
+        Http.BadStatus resp ->
+            if resp.status.code == 404 then
+                div [] []
+            else
+                text resp.body |> renderWrapper
 
 
 renderWrapper : Html Msg -> Html Msg
