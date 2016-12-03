@@ -1,7 +1,7 @@
 module ContextViewer.Models exposing (..)
 
 import Http
-import Json.Decode exposing (Decoder, Value, decodeValue, succeed, maybe, andThen, string, oneOf, null, list, bool, (:=))
+import Json.Decode exposing (Decoder, Value, decodeValue, succeed, maybe, andThen, string, oneOf, null, list, bool, field)
 import Json.Decode.Extra exposing ((|:))
 
 
@@ -11,6 +11,10 @@ defaultJsonUrl =
 
 defaultContextsEnabled =
     [ "deploy-preview" ]
+
+
+type Msg
+    = UpdateContext (Result Http.Error Context)
 
 
 type alias Context =
@@ -34,11 +38,6 @@ type alias Model =
     }
 
 
-type Msg
-    = FetchContextDone Context
-    | FetchContextFail Http.Error
-
-
 newConfiguration : Configuration
 newConfiguration =
     { jsonUrl = defaultJsonUrl
@@ -49,22 +48,6 @@ newConfiguration =
 newContext : Context
 newContext =
     Context "" "" "" "" ""
-
-
-parseError : Http.Error -> String
-parseError error =
-    case error of
-        Http.Timeout ->
-            "timeout reading the context file"
-
-        Http.NetworkError ->
-            "network error reading the context file"
-
-        Http.UnexpectedPayload str ->
-            str
-
-        Http.BadResponse int str ->
-            str
 
 
 decodeConfiguration : Value -> Configuration
@@ -80,11 +63,11 @@ decodeConfiguration payload =
 configurationDecoder : Decoder Configuration
 configurationDecoder =
     succeed Configuration
-        |: ((maybe ("jsonUrl" := oneOf [ string, null defaultJsonUrl ])) `andThen` decodeOptionalUrl)
-        |: ((maybe ("contextsEnabled" := oneOf [ list string, null defaultContextsEnabled ])) `andThen` decodeOptionalList)
+        |: ((maybe (field "jsonUrl" (oneOf [ string, null defaultJsonUrl ]))) |> andThen decodeOptionalUrl)
+        |: ((maybe (field "contextsEnabled" (oneOf [ list string, null defaultContextsEnabled ]))) |> andThen decodeOptionalList)
 
 
-decodeOptionalUrl : Maybe (String) -> Decoder (String)
+decodeOptionalUrl : Maybe String -> Decoder String
 decodeOptionalUrl option =
     succeed (Maybe.withDefault defaultJsonUrl option)
 
