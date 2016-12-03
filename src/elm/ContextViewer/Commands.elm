@@ -9,18 +9,12 @@ import Task
 
 fetchContext : String -> Cmd Msg
 fetchContext url =
-    Http.toTask (Http.get url contextDecoder)
-        |> Task.attempt fetchResult
+    Http.send fetchResult (Http.get url contextDecoder)
 
 
 fetchResult : Result Http.Error Context -> Msg
 fetchResult result =
-    case result of
-        Err err ->
-            FetchContextFail err
-
-        Ok newCtx ->
-            FetchContextDone newCtx
+    UpdateContext result
 
 
 contextDecoder : Decoder Context

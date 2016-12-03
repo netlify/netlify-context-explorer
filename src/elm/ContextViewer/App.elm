@@ -22,11 +22,8 @@ init payload =
 update : Msg -> Model -> ( Model, Cmd Msg )
 update msg model =
     case msg of
-        FetchContextDone newCtx ->
-            ( { configuration = model.configuration, context = Ok newCtx }, Cmd.none )
-
-        FetchContextFail error ->
-            ( { configuration = model.configuration, context = Err error }, Cmd.none )
+        UpdateContext result ->
+            { model | context = result } ! []
 
 
 view : Model -> Html Msg

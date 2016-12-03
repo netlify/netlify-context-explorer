@@ -13,6 +13,10 @@ defaultContextsEnabled =
     [ "deploy-preview" ]
 
 
+type Msg
+    = UpdateContext (Result Http.Error Context)
+
+
 type alias Context =
     { context : String
     , repository : String
@@ -32,11 +36,6 @@ type alias Model =
     { configuration : Configuration
     , context : Result Http.Error Context
     }
-
-
-type Msg
-    = FetchContextDone Context
-    | FetchContextFail Http.Error
 
 
 newConfiguration : Configuration
