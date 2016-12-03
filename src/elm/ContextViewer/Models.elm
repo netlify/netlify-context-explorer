@@ -3,6 +3,7 @@ module ContextViewer.Models exposing (..)
 import Http
 import Json.Decode exposing (Decoder, Value, decodeValue, succeed, maybe, andThen, string, oneOf, null, list, bool, field)
 import Json.Decode.Extra exposing ((|:))
+import Keyboard exposing (KeyCode)
 
 
 defaultJsonUrl =
@@ -15,6 +16,12 @@ defaultContextsEnabled =
 
 type Msg
     = UpdateContext (Result Http.Error Context)
+    | KeyUp KeyCode
+
+
+type Visibility
+    = Hidden
+    | Visible
 
 
 type alias Context =
@@ -35,6 +42,7 @@ type alias Configuration =
 type alias Model =
     { configuration : Configuration
     , context : Result Http.Error Context
+    , visibility : Visibility
     }
 
 
@@ -48,6 +56,14 @@ newConfiguration =
 newContext : Context
 newContext =
     Context "" "" "" "" ""
+
+
+newModel : Configuration -> Model
+newModel config =
+    { configuration = config
+    , context = Ok newContext
+    , visibility = Visible
+    }
 
 
 decodeConfiguration : Value -> Configuration

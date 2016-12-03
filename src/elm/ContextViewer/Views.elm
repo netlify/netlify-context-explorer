@@ -12,7 +12,7 @@ renderContext : Model -> Html Msg
 renderContext model =
     case model.context of
         Err error ->
-            renderError error |> renderWrapper
+            renderError error |> renderWrapper model.visibility
 
         Ok ctx ->
             let
@@ -20,7 +20,7 @@ renderContext model =
                     (List.member ctx.context model.configuration.contextsEnabled) && ctx.repository /= ""
             in
                 if render then
-                    renderGitInfo ctx |> renderWrapper
+                    renderGitInfo ctx |> renderWrapper model.visibility
                 else
                     div [] []
 
@@ -44,12 +44,15 @@ renderError error =
             if resp.status.code == 404 then
                 div [] []
             else
-                text resp.body |> renderWrapper
+                text resp.body
 
 
-renderWrapper : Html Msg -> Html Msg
-renderWrapper msg =
-    div [ class "netlify-context-wrapper" ]
+renderWrapper : Visibility -> Html Msg -> Html Msg
+renderWrapper visibility msg =
+    div
+        [ class "netlify-context-wrapper"
+        , display visibility
+        ]
         [ msg ]
 
 
@@ -138,3 +141,13 @@ humanContextName name =
         "Netlify Deploy Preview -"
     else
         "Netlify Branch deploy -"
+
+
+display : Visibility -> Attribute msg
+display visibility =
+    case visibility of
+        Visible ->
+            style []
+
+        Hidden ->
+            style [ ( "display", "none" ) ]
