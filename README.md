@@ -110,3 +110,7 @@ if (root) {
   elm.ContextViewer.App.embed(root, options);
 }
 ```
+
+### Toggling visibility
+
+You can press tick (`) to hide and show the context viewer when you please.
