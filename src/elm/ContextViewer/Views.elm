@@ -135,12 +135,15 @@ codeReviewPath gitHost =
 
 humanContextName : String -> String
 humanContextName name =
-    if name == "production" then
-        "Netlify Production -"
-    else if name == "deploy-preview" then
-        "Netlify Deploy Preview -"
-    else
-        "Netlify Branch deploy -"
+    case name of
+        "production" ->
+            "Netlify Production -"
+
+        "deploy-preview" ->
+            "Netlify Deploy Preview -"
+
+        _ ->
+            "Netlify Branch deploy -"
 
 
 display : Visibility -> Attribute msg
